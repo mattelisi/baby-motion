@@ -6,7 +6,7 @@ function im = fractionalNoise3(im, w, octaves, step, persistence, lacunarity)
 %
 % input:
 % - im: initial 3-dimensional array
-% - wl: grid size in pixels of the first noise octave (lowest spatial frequency)
+% - w : grid size in pixels of the first noise octave (lowest spatial frequency)
 % - octaves: number of noisy octaves with increasing spatial frequency to
 %            be added
 %
@@ -38,16 +38,14 @@ end
 
 for oct = 1:octaves
 
-    %rndim = randn(ceil(n/w),ceil(m/w),ceil(v/w)); % gaussian noise
     rndim = -1 +2*rand(ceil(n/w),ceil(m/w),ceil(v/w));   % uniform [-1 1]
 
-    %[Xq,Yq,Zq] = ndgrid(linspace(1,size(rndim,2),m),linspace(1,size(rndim,1),n),linspace(1,size(rndim,1),v)); % old
     [Xq,Yq,Zq] = meshgrid(linspace(1,size(rndim,2),m),linspace(1,size(rndim,1),n),linspace(1,step*size(rndim,3),v));
-
+    [Xs,Ys,Zs] = meshgrid(1:size(rndim,2),1:size(rndim,1),linspace(1,step*size(rndim,3),size(rndim,3)));
+    
     %d = ba_interp3(rndim,Xq,Yq,Zq, 'cubic'); % this is faster but need compiling the mex file
-    d = interp3(rndim,Xq,Yq,Zq, 'cubic'); % not optimized
+    d = interp3(Xs,Ys,Zs,rndim,Xq,Yq,Zq, 'cubic'); % not optimized
 
-    %
     % rndim = -1 +2*rand(round(n/w),round(m/w),round(v/w));
     % [Xs,Ys,Zs] = meshgrid(linspace(1,size(im,2),size(rndim,2)),linspace(1,size(im,1),size(rndim,1)),linspace(1,step*size(im,3),size(rndim,3)));
     % d = interp3(Xs,Ys,Zs,rndim,Xq,Yq,Zq, 'cubic'); % not optimized

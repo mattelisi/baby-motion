@@ -10,11 +10,8 @@ design.radius = 8;
 design.fixJtStd = 0; % x-y std. if you want fixation point to vary from trial to trial
 
 %% noise parameter
-design.spatFreq = 4; %
+design.spatFreq = 5; %
 design.tempFreq = 8; % it is actually speed [dva/sec], not temporal frequency
-
-% round(visual.ppd*(td.tempFreq*scr.fd))
-% round(24.3736*(2*0.0083))
 
 if practice
   design.internalMotion = [0 0 0 0 0]; %
@@ -23,7 +20,7 @@ else
 end
 design.practice = practice;
 
-design.envSpeed = [12]; % deg/sec
+design.envSpeed = 12; % deg/sec
 design.sigma = 0.35;
 design.contrast = 1;    % keep 1
 design.textureSize = 6; % 8 times the sigma of the envelope
@@ -32,8 +29,8 @@ design.control_f = 0.5; % determine physical temporal frequency of control trial
 
 %% motion par
 design.envelDir = [1 -1]; % 1 = outward; -1 = inward
-design.movTime = 0.15; % initial predicted latency + duration
-design.maxTime = 0.3; %
+design.movTime = 0.125; % initial predicted latency + duration
+design.maxTime = 0.25; %
 design.alphaJitterRange = [0 45]; % range for random (uniform) deviation from perfect radial trajectory in catch trials
 
 %% timing

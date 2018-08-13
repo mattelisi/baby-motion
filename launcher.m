@@ -24,7 +24,7 @@ const.gammaRGB = '../gammaCalibration/TabletCalDataRGB.mat';
 % this is needed only for matlab (where the random number generator start always at the same state)
 % in octave the generator is initialized from /dev/urandom (if available) otherwise from CPU time,
 % wall clock time, and the current fraction of a second.
-% rng('shuffle');
+rng('shuffle');
 
 %% participant informations
 newFile = 0;

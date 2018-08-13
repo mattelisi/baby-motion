@@ -1,14 +1,10 @@
- function [data, sacRT] = runSingleTrial(td, scr, visual, const, design)
+ function [data, score] = runSingleTrial(td, scr, visual, const, design)
 %
 % infinite regress #2
 %
 %
 % Matteo Lisi, 2014
 %
-
-
-%% TRIAL PREP.
-
 
 % clear keyboard buffer
 FlushEvents('KeyDown');
@@ -38,9 +34,9 @@ ty = ty - zeroY;
 
 % save the true direction of displacement
 if td.envDir==1
-  trueDir = -td.alpha-alphaJitter;
+  trueDir = td.alpha + alphaJitter/180*pi;
 else
-  trueDir = (-td.alpha+pi)-alphaJitter;
+  trueDir = (td.alpha+pi) + alphaJitter/180*pi;
 end
 
 % rotate path based on alphaJitter angle
@@ -94,7 +90,7 @@ else
 
     step = visual.ppd*(td.tempFreq*scr.fd) * design.control_f;
 
-    noiseimg = (255*fractionalNoise3(zeros(tsize, tsize, nFrames+td.tempFreq*4), td.wavelength, td.nOctaves, step)) -visual.bgColor;
+    noiseimg = (255*fractionalNoise3(zeros(tsize, tsize, nFrames+10), td.wavelength, td.nOctaves, step)) -visual.bgColor;
 
     % gaussian envelope
     [gx,gy]=meshgrid(-floor(tsize/2):floor(tsize/2), -floor(tsize/2):floor(tsize/2));
@@ -120,10 +116,7 @@ tResp   = NaN;
 tHClk   = NaN;
 
 %
-sacRT = NaN;
 data = '';
-
-% other flags
 
 % draw fixation
 drawFixation(visual.fixCol,[cxm cym],scr,visual);
@@ -147,7 +140,6 @@ for i = 1:nFrames
     % Screen('DrawingFinished',scr.main);
     tFlip = Screen('Flip', scr.main, tFlip + scr.fd - design.preRelease);
 
-    % send event triggers to eyelink and save timestamp
     if i==1
       tBeg = tFlip;
     end
@@ -194,18 +186,23 @@ if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'front
 
 tResp = GetSecs;
 
-% give feedback if practice session
+%% signed error: you can take the absolute value of this, divided by pi, as a measure of accuracy bounded in (0,1)
+signed_error = atan2(sin(resp-trueDir), cos(resp-trueDir));
+score = abs(signed_error/pi);
+
+%% give feedback if practice session
 if design.practice
   drawArrow([tx(1) ty(1)],[px+tx(1) ,-py+ty(1)],20,scr,visual.fgColor,3);
   [Tpx ,Tpy] = pol2cart(trueDir,70);
   drawArrow([tx(1) ty(1)],[Tpx+tx(1) ,-Tpy+ty(1)],20,scr,[50 255 50],3);
+  
+  drawSmiley(scr.main, [cxm, cym], 60, 1-score, 1)
+  
   Screen('Flip',scr.main);
   WaitSecs(0.2);
   SitNWait;
 end
 
-%% signed error: you can take the absolute value of this, divided by pi, as a measure of accuracy bounded in (0,1)
-signed_error = atan2(sin(resp-trueDir), cos(resp-trueDir));
 
 %% save data
 

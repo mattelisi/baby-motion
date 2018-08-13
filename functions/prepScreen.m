@@ -7,9 +7,9 @@ function scr = prepScreen(const)
 
 HideCursor;
 
-scr.subDist = 120;   % subject distance (cm)
+scr.subDist = 56;   % subject distance (cm)
 scr.colDept = 32;
-scr.width   = 1375;  % monitor width (mm)
+scr.width   = 333;  % monitor width (mm)
 
 % If there are multiple displays guess that one without the menu bar is the
 % best choice.  Dislay 0 has the menu bar.
@@ -26,7 +26,7 @@ Screen('Preference', 'SkipSyncTests', 1);
 %Screen('Resolution', scr.expScreen, 1360, 768);
 
 % Open a window.  Note the new argument to OpenWindow with value 2, specifying the number of buffers to the onscreen window.
-[scr.main,scr.rect] = Screen('OpenWindow',scr.expScreen, [0.5 0.5 0.5],[0 0 2400 1350],scr.colDept,2);
+[scr.main,scr.rect] = Screen('OpenWindow',scr.expScreen, [0.5 0.5 0.5],[],scr.colDept,2);
 
 Screen('BlendFunction',scr.main, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

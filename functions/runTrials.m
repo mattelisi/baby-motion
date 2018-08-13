@@ -13,6 +13,9 @@ FlushEvents('keyDown');
 % create data fid
 datFid = fopen(datFile, 'w');
 
+% track score
+all_score = [];
+
 % unify keynames for different operating systems
 KbName('UnifyKeyNames');
 
@@ -39,11 +42,16 @@ for b = 1:design.nBlocks
         t = t + 1;
         td = design.b(b).trial(t);
 
-        [data, sacRT] = runSingleTrial(td, scr, visual, const, design);
+        [data, score] = runSingleTrial(td, scr, visual, const, design);
 
         dataStr = sprintf('%i\t%i\t%s\n',b,t,data); % print data to string
 
         fprintf(datFid,dataStr);                    % write data to datFile
+        
+        % keep track of score in catch trials
+        if td.internalMotion==0
+            all_score = [all_score, score];
+        end
 
         WaitSecs(design.iti);
 
@@ -59,10 +67,13 @@ end
 fclose(datFid); % close datFile
 
 Screen('FillRect', scr.main,visual.bgColor);
-Screen(scr.main,'DrawText','Thanks, you have finished this part of the experiment.',100,100,visual.fgColor);
+Screen(scr.main,'DrawText','Thanks, you have completed this part of the study.',100,100,visual.fgColor);
+
+drawSmiley(scr.main, [scr.centerX, scr.centerY], 120, 1-mean(all_score), 1);
+
 Screen(scr.main,'Flip');
+SitNWait;
 
 ShowCursor;
 
-waitsecs(1);
 cleanScr;
