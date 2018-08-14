@@ -166,7 +166,7 @@ SetMouse(round(scr.centerX+visual.ppd*mx), round(scr.centerY-visual.ppd*my), scr
 %HideCursor;
 
 tHClk = Screen('Flip',scr.main);
-if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, 1); end
+if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, 10); end
 click = false;
 while ~click
     [mx,my,buttons] = GetMouse(scr.main);
@@ -174,7 +174,7 @@ while ~click
     [px ,py] = pol2cart(lastPoint,70);
     drawArrow([tx(1) ty(1)],[px+tx(1) ,-py+ty(1)],20,scr,visual.fgColor,3);
     Screen('Flip',scr.main);
-    if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, 1); end
+    if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, 2); end
     if any(buttons)
         tResp = GetSecs;
         click = true;
@@ -182,7 +182,7 @@ while ~click
     end
 end
 Screen('Flip',scr.main);
-if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, 1); end
+if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, 2); end
 
 tResp = GetSecs;
 
@@ -206,7 +206,7 @@ end
 
 %% save data
 
-if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, round(0.2/scr.fd)); end
+if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, round(1/scr.fd)); end
 
 % collect trial information
 trialData = sprintf('%.2f\t%i\t%i\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f',[td.alpha td.fixLoc td.soa td.envDir td.driftDir td.movTime td.contrast td.wavelength td.tempFreq td.envSpeed td.sigma td.internalMotion alphaJitter]); % stim delay placed instead of td.contrast

@@ -13,7 +13,7 @@ home;
 
 %% general parameters
 const.gammaLinear = 0; % use monitor linearization (need also to set the path below)
-const.saveMovie   = 0; % untested for the moment
+const.saveMovie   = 1; % untested for the moment
 const.nTrialMovie = 5;
 
 % gamma calibration data folders path
