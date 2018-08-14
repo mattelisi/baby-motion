@@ -215,7 +215,7 @@ trialData = sprintf('%.2f\t%i\t%i\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2
 timeData = sprintf('%.2f\t%i\t%i\t%i\t%i',[tBeg round(1000*([tFix tEnd tHClk tResp]-tBeg ))]);
 
 % determine response data
-respData = sprintf('%.2f\t%.2f',resp, signed_error);
+respData = sprintf('%.2f\t%.2f\t%.2f',resp, trueDir, signed_error);
 
 % collect data for tab [14 x trialData, 6 x timeData, 1 x respData]
 data = sprintf('%s\t%s\t%s',trialData, timeData, respData);

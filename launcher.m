@@ -13,7 +13,7 @@ home;
 
 %% general parameters
 const.gammaLinear = 0; % use monitor linearization (need also to set the path below)
-const.saveMovie   = 0;
+const.saveMovie   = 0; % untested for the moment
 const.nTrialMovie = 5;
 
 % gamma calibration data folders path
@@ -65,39 +65,31 @@ scr = prepScreen(const);
 visual = prepStim(scr, const);
 
 % generate design
-design = genDesign(visual, scr, const, practice);
+design = genDesign(visual, scr, practice);
 
 % prepare movie
 if const.saveMovie
-    movieName = sprintf('%s.mov',vpcode);
-    % use GSstreamer ?
-    %Screen('Preference', 'DefaultVideocaptureEngine', 3)
+    movieName = sprintf('%s.mp4',vpcode);
     visual.imageRect = scr.rect;
-    %const.moviePtr = Screen('CreateMovie', scr.main, movieName, scr.xres, scr.yres, 60, 'CodecSettings= Videoquality=1 EncodingQuality=1');
     const.moviePtr = Screen('CreateMovie', scr.main, movieName, scr.xres, scr.yres, 60);
-
 end
 
-% instructions
-% systemFont = 'Arial'; % 'Courier';
-% systemFontSize = 19;
-% GeneralInstructions = ['Welcome to our experiment. \n\n',...
-%     'Session ',actualSessStr,' (',num2str(as),' of ',num2str(design.totSession),').\n\n',...
-%     'Your task is to...\n\n'...
-%     'Press any key when ready to begin.'];
-% Screen('TextSize', scr.main, systemFontSize);
-% Screen('TextFont', scr.main, systemFont);
-% Screen('FillRect', scr.main, visual.bgColor);
-% DrawFormattedText(scr.main, GeneralInstructions, 'center', 'center', visual.fgColor,70);
-
+%% This present an image of your choice
+% can also be in other formats
 istruImage1 = imread('instructions.png');
 istru1 = Screen('MakeTexture', scr.main, istruImage1);
 Screen('DrawTexture', scr.main, istru1, [], [], 0);
 Screen('Flip', scr.main);
-
 SitNWait;
-
 Screen('Close',istru1);
+
+% if more than one "page" is needed, you can just add it as follow:
+% istruImage2 = imread('instructions_2.png');
+% istru2 = Screen('MakeTexture', scr.main, istruImage2);
+% Screen('DrawTexture', scr.main, istru2, [], [], 0);
+% Screen('Flip', scr.main);
+% SitNWait;
+% Screen('Close',istru2);
 
 try
     % runtrials
@@ -110,6 +102,8 @@ end
 if const.saveMovie
     Screen('FinalizeMovie', const.moviePtr);
 end
+
+Screen('CloseAll');
 
 % save updated design information
 save(sprintf('%s.mat',vpcode),'design','visual','scr','const');

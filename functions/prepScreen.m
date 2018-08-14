@@ -16,17 +16,15 @@ scr.width   = 333;  % monitor width (mm)
 scr.allScreens = Screen('Screens');
 scr.expScreen  = max(scr.allScreens);
 
-% get rid of PsychtoolBox Welcome screen
-%Screen('Preference', 'VisualDebugLevel',3);
-
+% this is needed on my crappy mac running High Sierra
+% it should be commented to guarantee accurate timing in a decent setup
 Screen('Preference', 'SkipSyncTests', 1);
 
-% set resolution
+% set resolution ?
 %Screen('Resolution', scr.expScreen, 1600, 900);
-%Screen('Resolution', scr.expScreen, 1360, 768);
 
 % Open a window.  Note the new argument to OpenWindow with value 2, specifying the number of buffers to the onscreen window.
-[scr.main,scr.rect] = Screen('OpenWindow',scr.expScreen, [0.5 0.5 0.5],[],scr.colDept,2);
+[scr.main,scr.rect] = Screen('OpenWindow',scr.expScreen, [0.5 0.5 0.5],[],scr.colDept,2,0,4);
 
 Screen('BlendFunction',scr.main, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

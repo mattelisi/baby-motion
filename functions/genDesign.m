@@ -1,6 +1,6 @@
-function design = genDesign(visual,scr,const, practice)
+function design = genDesign(visual,scr, practice)
 %
-% infinite regress #2
+% generate experiment design
 %
 % Matteo Lisi, 2014
 %
@@ -14,7 +14,8 @@ design.spatFreq = 5; %
 design.tempFreq = 8; % it is actually speed [dva/sec], not temporal frequency
 
 if practice
-  design.internalMotion = [0 0 0 0 0]; %
+    % 0 is catch trials; the set is repeated 2*design.rep times
+  design.internalMotion = [0 0 0 0 0 0 0 0 0 0 0 0 0]; 
 else
   design.internalMotion = [0 1 1 1 1]; %
 end
@@ -23,25 +24,30 @@ design.practice = practice;
 design.envSpeed = 12; % deg/sec
 design.sigma = 0.35;
 design.contrast = 1;    % keep 1
-design.textureSize = 6; % 8 times the sigma of the envelope
+design.textureSize = 6; % 8 times the sigma of the envelope, so you are sure it is not clipped at edges
 design.nOctaves = 2;
 design.control_f = 0.5; % determine physical temporal frequency of control trials relative to double-drift
 
 %% motion par
 design.envelDir = [1 -1]; % 1 = outward; -1 = inward
-design.movTime = 0.125; % initial predicted latency + duration
-design.maxTime = 0.25; %
+design.maxTime = 0.25;    % this is the duration of the stimulus
 design.alphaJitterRange = [0 45]; % range for random (uniform) deviation from perfect radial trajectory in catch trials
+
+design.movTime = design.maxTime/2; % this determine only the relative location of start position wrt mean path eccentricity (don't change it!)
 
 %% timing
 design.soa = [0 300];
-design.iti = 0.05;
+design.iti = 0.1;
 design.preRelease = scr.fd/3; % half or less of the monitor refresh interval
-design.adjustSoa = 0.5;
+design.adjustSoa = 0.5;       % catch stimulus takes more to compute, this approximately makes the SoA equal
 
 %% exp structure
 design.nBlocks = 1;
-design.rep = 5;
+if practice
+    design.rep = 1;
+else
+    design.rep = 5;
+end
 
 %% trials list
 t = 0;

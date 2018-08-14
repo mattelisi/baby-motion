@@ -27,15 +27,6 @@ end
 
 [n, m, v] = size(im); a = 1;
 
-% step = 2;
-% tsize = 58;
-% im = zeros(tsize,tsize,ceil(tsize/step));
-% w = 12.0243;
-% octaves = 3;
-
-% query points are always the same
-% [Xq,Yq,Zq] = meshgrid(linspace(1,size(im,2),m),linspace(1,size(im,1),n),linspace(1,step*size(im,3),v));
-
 for oct = 1:octaves
 
     rndim = -1 +2*rand(ceil(n/w),ceil(m/w),ceil(v/w));   % uniform [-1 1]
@@ -45,10 +36,6 @@ for oct = 1:octaves
     
     %d = ba_interp3(rndim,Xq,Yq,Zq, 'cubic'); % this is faster but need compiling the mex file
     d = interp3(Xs,Ys,Zs,rndim,Xq,Yq,Zq, 'cubic'); % not optimized
-
-    % rndim = -1 +2*rand(round(n/w),round(m/w),round(v/w));
-    % [Xs,Ys,Zs] = meshgrid(linspace(1,size(im,2),size(rndim,2)),linspace(1,size(im,1),size(rndim,1)),linspace(1,step*size(im,3),size(rndim,3)));
-    % d = interp3(Xs,Ys,Zs,rndim,Xq,Yq,Zq, 'cubic'); % not optimized
 
     im = im + a*d(1:n, 1:m, 1:v);
     a = a*persistence;
