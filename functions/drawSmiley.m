@@ -33,6 +33,6 @@ end
 rect_mth = [locmth(1)-R, locmth(2)-R, locmth(1)+R, locmth(2)+R];
 
 % staw everything
-Screen('FillOval', window, T(round(score/maxscore*100),:), rect_face);
+Screen('FillOval', window, T(ceil(score/maxscore*100),:), rect_face);
 Screen('FrameArc',  window,[0,0,0], rect_mth, start_beta, beta, penwidth);
 Screen('DrawDots', window, xyeyes, 4*penwidth, [0,0,0],[],2);
