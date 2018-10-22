@@ -15,7 +15,7 @@ design.tempFreq = 8; % it is actually speed [dva/sec], not temporal frequency
 
 if practice
     % 0 is catch trials; the set is repeated 2*design.rep times
-  design.internalMotion = [0 0 0 0 0 0 0 0 0 0 0 0 0]; 
+  design.internalMotion = [0 0 0 0 0 0 0 0 0 0 0 0 0];
 else
   design.internalMotion = [0 1 1 1 1]; %
 end
@@ -30,7 +30,7 @@ design.control_f = 0.5; % determine physical temporal frequency of control trial
 
 %% motion par
 design.envelDir = [1 -1]; % 1 = outward; -1 = inward
-design.maxTime = 0.25;    % this is the duration of the stimulus
+design.maxTime = [0.05 0.25];    % this is the duration of the stimulus
 design.alphaJitterRange = [0 45]; % range for random (uniform) deviation from perfect radial trajectory in catch trials
 
 design.movTime = design.maxTime/2; % this determine only the relative location of start position wrt mean path eccentricity (don't change it!)
@@ -54,6 +54,7 @@ t = 0;
 for fp = design.tempFreq
 for es = design.envSpeed
 for r = 1:design.rep
+for dur = design.maxTime
 for ed = design.envelDir
 for sf = design.spatFreq
 for im = design.internalMotion
@@ -72,7 +73,6 @@ for ctrst = design.contrast
     trial(t).envDir = ed;
     trial(t).driftDir = sign(randn(1)); % -1 = CW; 1 = CCW (direction of internal pattern relative to envelope displacement)
     trial(t).internalMotion = im;
-    trial(t).movTime = design.movTime;
 
     % target parameters
     trial(t).spatFreq = sf;
@@ -82,7 +82,10 @@ for ctrst = design.contrast
     trial(t).sigma = design.sigma;
     trial(t).contrast = ctrst;
     trial(t).nOctaves = design.nOctaves;
+    trial(t).duration = dur;
+    trial(t).movTime = dur/2;
 
+end
 end
 end
 end

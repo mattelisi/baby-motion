@@ -91,6 +91,43 @@ Screen('Close',istru1);
 % SitNWait;
 % Screen('Close',istru2);
 
+if practice
+istruImage1 = imread('instructions/instruction1.png');
+istru1 = Screen('MakeTexture', scr.main, istruImage1);
+Screen('DrawTexture', scr.main, istru1, [], scr.rect, 0);
+Screen('Flip', scr.main);
+SitNWait;
+
+istruImage2 = imread('instructions/instruction2.png');
+istru2 = Screen('MakeTexture', scr.main, istruImage2);
+Screen('DrawTexture', scr.main, istru2, [], scr.rect, 0);
+Screen('Flip', scr.main);
+SitNWait;
+Screen('Close',istru2);
+
+istruImage3 = imread('instructions/instruction3.png');
+istru3 = Screen('MakeTexture', scr.main, istruImage3);
+Screen('DrawTexture', scr.main, istru3, [], scr.rect, 0);
+Screen('Flip', scr.main);
+SitNWait;
+Screen('Close',istru3);
+
+istruImage4 = imread('instructions/instruction4.png');
+istru4 = Screen('MakeTexture', scr.main, istruImage4);
+Screen('DrawTexture', scr.main, istru4, [], scr.rect, 0);
+Screen('Flip', scr.main);
+SitNWait;
+Screen('Close',istru4);
+
+istruImage5 = imread('instructions/instruction5.png');
+istru5 = Screen('MakeTexture', scr.main, istruImage5);
+Screen('DrawTexture', scr.main, istru5, [], scr.rect, 0);
+Screen('Flip', scr.main);
+SitNWait;
+Screen('Close',istru5);
+end
+
+
 try
     % runtrials
     design = runTrials(design,vpcode,scr,visual,const);

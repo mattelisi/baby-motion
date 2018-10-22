@@ -15,9 +15,10 @@ cym = round(td.fixLoc(2));
 chk = visual.fixCkRad;
 
 % compute target path
-nFrames = round(design.maxTime/scr.fd);
+duration = td.duration;
+nFrames = round(duration/scr.fd);
 startEcc = (design.radius  - td.envDir*td.movTime*td.envSpeed/2)*visual.ppd;
-endEcc = startEcc + (td.envDir*design.maxTime*td.envSpeed/2)*visual.ppd;
+endEcc = startEcc + (td.envDir*duration*td.envSpeed/2)*visual.ppd;
 tarRad = linspace(startEcc,endEcc,nFrames);
 
 % add random jitter to trajectory orientation of catch trials
@@ -195,21 +196,20 @@ if design.practice
   drawArrow([tx(1) ty(1)],[px+tx(1) ,-py+ty(1)],20,scr,visual.fgColor,3);
   [Tpx ,Tpy] = pol2cart(trueDir,70);
   drawArrow([tx(1) ty(1)],[Tpx+tx(1) ,-Tpy+ty(1)],20,scr,[50 255 50],3);
-  
+
   drawSmiley(scr.main, [cxm, cym], 60, 1-score, 1)
-  
+
   Screen('Flip',scr.main);
   WaitSecs(0.2);
   SitNWait;
 end
-
 
 %% save data
 
 if const.saveMovie; Screen('AddFrameToMovie', scr.main, visual.imageRect, 'frontBuffer', const.moviePtr, round(1/scr.fd)); end
 
 % collect trial information
-trialData = sprintf('%.2f\t%i\t%i\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f',[td.alpha td.fixLoc td.soa td.envDir td.driftDir td.movTime td.contrast td.wavelength td.tempFreq td.envSpeed td.sigma td.internalMotion alphaJitter]); % stim delay placed instead of td.contrast
+trialData = sprintf('%.2f\t%i\t%i\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f',[td.alpha td.fixLoc td.soa td.envDir td.driftDir td.movTime td.contrast td.wavelength td.tempFreq td.envSpeed td.sigma td.internalMotion alphaJitter duration]); % stim delay placed instead of td.contrast
 
 % determine presentation times relative to 1st frame of motion
 timeData = sprintf('%.2f\t%i\t%i\t%i\t%i',[tBeg round(1000*([tFix tEnd tHClk tResp]-tBeg ))]);

@@ -16,7 +16,7 @@ str(d)
 # --------------------------------------------- #
 ## some explorative plots
 
-hist(d$signed_error/pi*180, xlab="error [deg]", main="", col="grey",xlim=c(-45,45))
+hist(d$signed_error/pi*180, xlab="error [deg]", main="", col="grey",xlim=c(-180,180),breaks=20, main="catch trials")
 
 # reformat trueDir in [-pi,pi)
 d$trueDir <- d$trueDir %% (2*pi)
