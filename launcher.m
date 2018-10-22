@@ -13,7 +13,7 @@ home;
 
 %% general parameters
 const.gammaLinear = 0; % use monitor linearization (need also to set the path below)
-const.saveMovie   = 1; % untested for the moment
+const.saveMovie   = 0; % untested for the moment
 const.nTrialMovie = 5;
 
 % gamma calibration data folders path
@@ -91,7 +91,7 @@ Screen('Close',istru1);
 % SitNWait;
 % Screen('Close',istru2);
 
-if practice
+if 0 %practice
 istruImage1 = imread('instructions/instruction1.png');
 istru1 = Screen('MakeTexture', scr.main, istruImage1);
 Screen('DrawTexture', scr.main, istru1, [], scr.rect, 0);
